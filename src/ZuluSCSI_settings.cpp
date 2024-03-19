@@ -226,6 +226,8 @@ static void readIniSCSIDeviceSetting(scsi_device_settings_t &cfg, const char *se
     cfg.sectorSDBegin = ini_getl(section, "SectorSDBegin", cfg.sectorSDBegin, CONFIGFILE);
     cfg.sectorSDEnd = ini_getl(section, "SectorSDEnd", cfg.sectorSDEnd, CONFIGFILE);
 
+    cfg.vendorExtensions = ini_getl(section, "VendorExtensions", cfg.vendorExtensions, CONFIGFILE);
+
     char tmp[32];
     ini_gets(section, "Vendor", "", tmp, sizeof(tmp), CONFIGFILE);
     if (tmp[0])
@@ -287,6 +289,7 @@ scsi_system_settings_t *ZuluSCSISettings::initSystem(const char *presetName)
     cfgSys.enableParity = true;
     cfgSys.useFATAllocSize = false;
     cfgSys.enableCDAudio = false;
+    cfgSys.enableUSBMassStorage = false;
     
     // setting set for all or specific devices
     cfgDev.deviceType = S2S_CFG_NOT_SET;
@@ -305,6 +308,8 @@ scsi_system_settings_t *ZuluSCSISettings::initSystem(const char *presetName)
 
     cfgDev.sectorSDBegin = 0;
     cfgDev.sectorSDEnd = 0;
+
+    cfgDev.vendorExtensions = 0;
 
     // System-specific defaults
 
@@ -376,6 +381,9 @@ scsi_system_settings_t *ZuluSCSISettings::initSystem(const char *presetName)
     cfgSys.enableParity =  ini_getbool("SCSI", "EnableParity", cfgSys.enableParity, CONFIGFILE);
     cfgSys.useFATAllocSize = ini_getbool("SCSI", "UseFATAllocSize", cfgSys.useFATAllocSize, CONFIGFILE);
     cfgSys.enableCDAudio = ini_getbool("SCSI", "EnableCDAudio", cfgSys.enableCDAudio, CONFIGFILE);
+
+    cfgSys.enableUSBMassStorage = ini_getbool("SCSI", "EnableUSBMassStorage", cfgSys.enableUSBMassStorage, CONFIGFILE);
+    
     return &cfgSys;
 }
 
